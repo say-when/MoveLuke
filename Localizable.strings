@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  BoundsTest
+
+  Created by Scott Grant on 8/3/17.
+  Copyright © 2017 Scott Grant. All rights reserved.
+*/
+"kDifficultAlertTitle" = "Difficult to see...";
+"kDifficultAlertMessage" = "Couldn't find Luke, where is he? Try terminating the app and restarting it.";
+"kDifficultNetworkAlertMessage" = "Couldn't find Luke, there was a network error. Try terminating the app and restarting it.";
+"kDifficultNoDataAlertMessage" = "Couldn't find Luke, no data was returned from the network. Try terminating the app and restarting it.";
+"kSizeAlertTitle" = "Size matters not?";
+"kSizeAlertMessage" = "Actually, with UIScrollView, it does. You entered coordinates that are beyond the scroll area of the image.";
+"kFailAlertTitle" = "That, is why you fail";
+"kFailAlertMessage" = "You can't move Luke unless you enter both an x and y value, and both must be numeric values.";
+"kOKButtonText" = "OK";
