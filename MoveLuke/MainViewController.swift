@@ -37,15 +37,15 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         
         // Set up our scrollView with Luke's image...
         guard let url = URL(string:self.lukeURL) else {
-            let alert = self.createAlert(title: NSLocalizedString("kDifficultAlertTitle", comment:""),
-                                             message: NSLocalizedString("kDifficultAlertMessage", comment:""),
-                // Note: We could exit here by providing the completion block, and by calling something like the
-                // AppDelegate applicationWillTerminate method and put an exit(0) or abort() in there.
-                // However it's considered bad form in iOS, and by Apple, for an app to terminate itself...
-                // nevertheless many developers (including yours truly) interpret that as a guideline not 
-                // a rule and they do it for certain conditions where they really want the user out of the app...
-                                             completion: nil)
-            self.present(alert, animated: true, completion: nil)
+            self.showError(title: "kDifficultAlertTitle",
+                           message: "kDifficultAlertMessage")
+            // Note: We could exit here, or in the network calls to the showError method, by providing a completion block
+            // for the alert (and adding a completion block param to showError) and then use the block to call something 
+            // like the AppDelegate applicationWillTerminate method and put an exit(0) or abort() in there.
+            //
+            // However, it's considered bad form in iOS, and by Apple, for an app to terminate itself,
+            // nevertheless many developers (including yours truly) interpret that as a guideline not
+            // a rule and they do it for certain conditions where they want the user out of the app...
             return
         }
         
@@ -53,35 +53,25 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         // We don't need to hold on to the data task reference, returned by the call, for this simple operation...
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request, completionHandler: { [weak self] (data, response, error) -> Void in
-            
-            func showError(title: String, message: String) {
-                if let alert = self?.createAlert(title: NSLocalizedString(title, comment:""),
-                                                 message: NSLocalizedString(message, comment:""),
-                                                 // We could also opt to add a completion block to pass along and exit the app (see note up above),
-                                                 // initate a retry, prompt the user to try to load the resource again, etc...
-                                                 completion: nil) {
-                    // Do UI operations on the main queue...
-                    DispatchQueue.main.async {
-                        self?.present(alert, animated: true)
-                    }
-                }
-            }
-            
             if let err = error {
-                showError(title:"kDifficultAlertTitle",
-                          message:"kDifficultNetworkAlertMessage" + " Error: \(err.localizedDescription)")
+                // Do UI operations on the main queue...
+                DispatchQueue.main.async {
+                    self?.showError(title:"kDifficultAlertTitle",
+                              message:"kDifficultNetworkAlertMessage" + " Error: \(err.localizedDescription)")
+                }
                 return
             }
             
             if let imgData = data,
                 let image = UIImage(data: imgData) {
-                // Do UI operations on the main queue...
                 DispatchQueue.main.async {
                     self?.setupScrollView(withImage: image)
                 }
             } else {
-                showError(title: "kDifficultAlertTitle",
-                          message: "kDifficultNoDataAlertMessage")
+                DispatchQueue.main.async {
+                    self?.showError(title: "kDifficultAlertTitle",
+                              message: "kDifficultNoDataAlertMessage")
+                }
             }
         }).resume()
     }
