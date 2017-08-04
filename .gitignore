@@ -1,26 +1,13 @@
-#########################
-# .gitignore file for Xcode4 and Xcode5 Source projects
-#
-# Apple bugs, waiting for Apple to fix/respond:
-#
-#    15564624 - what does the xccheckout file in Xcode5 do? Where's the documentation?
-#
-# Version 2.1
-# For latest version, see: http://stackoverflow.com/questions/49478/git-ignore-file-for-xcode-projects
-#
-# 2013 updates:
-# - fixed the broken "save personal Schemes"
-# - added line-by-line explanations for EVERYTHING (some were missing)
-#
-# NB: if you are storing "built" products, this WILL NOT WORK,
-# and you should use a different .gitignore (or none at all)
-# This file is for SOURCE projects, where there are many extra
-# files that we want to exclude
-#
-#########################
-.DS_Store
+### Xcode ###
 # Xcode
+#
+# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+
+## Build generated
 build/
+DerivedData/
+
+## Various settings
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -29,12 +16,16 @@ build/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
-xcuserdata
+xcuserdata/
+
+## Other
+*.moved-aside
 *.xccheckout
 *.xcscmblueprint
-profile
-*.moved-aside
-DerivedData
-*.hmap
-*.ipa
-output
+
+### Xcode Patch ###
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcworkspace/contents.xcworkspacedata
+/*.gcno
